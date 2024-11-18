@@ -38,16 +38,16 @@ public class EmailService {
 
 
     public void sendReviewRequestEmail(String customerEmail, String productId) {
-        // Fetch product details using the productId
+      
         Product product = productRepo.findById(productId)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
 
-        // Create the email message
+        
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(customerEmail);
         message.setSubject("Your Order has been Delivered!");
 
-        // Create a personalized message with product details
+       
         String messageBody = String.format(
                 "Dear Customer,\n\nYour order containing the product '%s' has been delivered. " +
                         "Please take a moment to leave a review for the product. Your feedback helps us improve our service.\n\n" +
