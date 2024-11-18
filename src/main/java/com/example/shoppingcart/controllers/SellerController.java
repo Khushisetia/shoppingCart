@@ -86,14 +86,14 @@ public class SellerController {
         User user = userOptional.get();
         String userId=user.get_id();
 
-        // Check if there is already a pending request
+        // Checking if there is already a pending request
         Optional<OrderRequest.Seller_Request> requestOptional = sellerRequestRepo.findByUsername(username);
         if (requestOptional.isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("There is already a pending seller request.");
         }
-        // Validate email format
+        
        
-        // Create a new seller request
+        // Creating a new seller request
         OrderRequest.Seller_Request sellerRequest = new OrderRequest.Seller_Request();
         sellerRequest.setId(userId);
         sellerRequest.setUsername(username);
@@ -186,7 +186,7 @@ public class SellerController {
         }
         // Fetch all orders
             List<Order> orders = orderRepo.findAll();
-        // Filter orders to include only those with items from the seller's products
+       
         List<Order> filteredOrders = orders.stream()
                 .map(order -> {
                     // Filter items to include only those belonging to the seller's products
