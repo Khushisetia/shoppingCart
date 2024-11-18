@@ -25,7 +25,7 @@ public class CartService {
 
         if (cartOptional.isPresent()) {
             Cart cart = cartOptional.get();
-            // Check if any CartItem has the specified productId
+           
             return cart.getCartItems().stream()
                     .anyMatch(cartItem -> cartItem.getProductId().equals(productId));
         }
@@ -35,7 +35,7 @@ public class CartService {
     }
 
     public boolean addItemToCart(String userId, CartItem cartItem) {
-        // Retrieve the product details
+        // Retrieving the product details
         Optional<Product> productOptional = productService.findProductById(cartItem.getProductId());
         if (!productOptional.isPresent()) {
             throw new IllegalArgumentException("Product not found.");
@@ -43,22 +43,22 @@ public class CartService {
 
         Product product = productOptional.get();
 
-        // Check if the requested quantity exceeds available stock
+        // Checking if the requested quantity exceeds available stock
         if (cartItem.getQuantity() > product.getQuantity()) {
             throw new IllegalArgumentException("Requested quantity exceeds available stock.");
         }
 
-        // Check if item already exists in the cart
+        // Checking if item already exists in the cart
         Cart cart = cartRepo.findByUserId(userId).orElseGet(() -> new Cart(userId));
         Optional<CartItem> existingItem = cart.getCartItems().stream()
                 .filter(item -> item.getProductId().equals(cartItem.getProductId()))
                 .findFirst();
 
         if (existingItem.isPresent()) {
-            // Update quantity and price if item is already in cart
+            // Updating quantity and price if item is already in cart
             int newQuantity = existingItem.get().getQuantity() + cartItem.getQuantity();
 
-            // Ensure the updated quantity does not exceed stock
+            // Checking item's quantity should not be more than stock
             if (newQuantity > product.getQuantity()) {
                 throw new IllegalArgumentException("Total requested quantity exceeds available stock.");
             }
@@ -76,22 +76,22 @@ public class CartService {
 
 
     public boolean removeItemFromCart(String userId, String productId) {
-        // Find the cart for the user
+        // Finding the cart for the user
         Cart cart = cartRepo.findByUserId(userId).orElse(null);
         if (cart == null) {
             return false; // No cart found
         }
 
-        // Find the CartItem to remove
+        // Finding the CartItem to remove
         CartItem itemToRemove = cart.getCartItems().stream()
                 .filter(item -> item.getProductId().equals(productId))
                 .findFirst()
                 .orElse(null);
 
         if (itemToRemove != null) {
-            // Remove the item from the cart
+            // Removing the item from the cart
             cart.getCartItems().remove(itemToRemove);
-            cartRepo.save(cart); // Save the updated cart
+            cartRepo.save(cart); // Saving the updated cart
             return true;
         } else {
             return false; // Item not found
@@ -100,7 +100,7 @@ public class CartService {
 
 
     public Cart getCartByUserId(String userId) {
-        return cartRepo.findByUserId(userId).orElse(null); // Retrieve the cart for the user
+        return cartRepo.findByUserId(userId).orElse(null); // Retrieving the cart for the user
     }
 
 
@@ -111,25 +111,25 @@ public class CartService {
 
 
     public void updateCartItemQuantity(String userId, String productId, int quantity) {
-        // Fetch the cart for the user
+        // Fetching the cart for the user
         Cart cart = cartRepo.findByUserId(userId).orElseThrow(() -> new IllegalArgumentException("Cart not found"));
 
-        // Find the cart item
+        // Finding the cart item
         CartItem cartItem = cart.getCartItems().stream()
                 .filter(item -> item.getProductId().equals(productId))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Product not found in cart"));
 
-        // Fetch product to check stock availability
+        // Fetching product to check stock availability
         Product product = productService.findProductById(productId)
                 .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
-        // Check if requested quantity exceeds available stock
+        // Checking if requested quantity exceeds available stock
         if (quantity > product.getQuantity()) {
             throw new IllegalArgumentException("Requested quantity exceeds available stock");
         }
 
-        // Update the quantity
+        // Updaing the quantity
         cartItem.setQuantity(quantity);
         cartRepo.save(cart);
     }
