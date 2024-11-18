@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.5</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<groupId>com.example</groupId>
+	<artifactId>ShoppingCart</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>ShoppingCart</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<java.version>21</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>itextpdf</artifactId>
+			<version>5.5.13.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.thetransactioncompany</groupId>
+			<artifactId>cors-filter</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.30</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-logging</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.10.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+
+<!--							&lt;!&ndash; Console Appender &ndash;&gt;-->
+<!--							<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--								<encoder>-->
+<!--									<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%X{transactionId}] - %msg%n</pattern>-->
+<!--								</encoder>-->
+<!--							</appender>-->
+
+<!--							&lt;!&ndash; File Appender for all logs &ndash;&gt;-->
+<!--							<appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--								<file>logs/shopping-cart.log</file>-->
+<!--								<encoder>-->
+<!--									<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%X{transactionId}] - %msg%n</pattern>-->
+<!--								</encoder>-->
+<!--								<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--									<fileNamePattern>logs/shopping-cart.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+<!--									<maxHistory>30</maxHistory>-->
+<!--									<totalSizeCap>3GB</totalSizeCap>-->
+<!--								</rollingPolicy>-->
+<!--							</appender>-->
+
+<!--							&lt;!&ndash; Error Log Appender &ndash;&gt;-->
+<!--							<appender name="ErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--								<file>logs/shopping-cart-error.log</file>-->
+<!--								<encoder>-->
+<!--									<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%X{transactionId}] - %msg%n</pattern>-->
+<!--								</encoder>-->
+<!--								<filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+<!--									<level>ERROR</level>-->
+<!--								</filter>-->
+<!--								<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--									<fileNamePattern>logs/shopping-cart-error.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+<!--									<maxHistory>30</maxHistory>-->
+<!--									<totalSizeCap>1GB</totalSizeCap>-->
+<!--								</rollingPolicy>-->
+<!--							</appender>-->
+
+<!--							&lt;!&ndash; Product Service Specific Appender &ndash;&gt;-->
+<!--							<appender name="ProductService" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--								<file>logs/product-service.log</file>-->
+<!--								<encoder>-->
+<!--									<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{transactionId}] [%X{productName}] - %msg%n</pattern>-->
+<!--								</encoder>-->
+<!--								<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--									<fileNamePattern>logs/product-service.%d{yyyy-MM-dd}.log</fileNamePattern>-->
+<!--									<maxHistory>15</maxHistory>-->
+<!--									<totalSizeCap>1GB</totalSizeCap>-->
+<!--								</rollingPolicy>-->
+<!--							</appender>-->
+
+<!--							&lt;!&ndash; Logger for ProductService &ndash;&gt;-->
+<!--							<logger name="com.example.shoppingcart.Services.ProductService" level="DEBUG" additivity="false">-->
+<!--								<appender-ref ref="ProductService"/>-->
+<!--								<appender-ref ref="Console"/>-->
+<!--							</logger>-->
+
+<!--							&lt;!&ndash; Root Logger &ndash;&gt;-->
+<!--							<root level="INFO">-->
+<!--								<appender-ref ref="Console"/>-->
+<!--								<appender-ref ref="File"/>-->
+<!--								<appender-ref ref="ErrorFile"/>-->
+<!--							</root>-->
+
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
