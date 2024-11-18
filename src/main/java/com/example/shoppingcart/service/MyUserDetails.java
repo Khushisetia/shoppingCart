@@ -9,32 +9,9 @@ import java.util.Collection;
 public class MyUserDetails implements UserDetails {
 
 
-//    List<String> grantedAuthority = new ArrayList<>();
-//    String password;
-//    String userName;
-//
-//    public MyUserDetails(String grantedAuthority, String userName, String password){
-//
-//        this.grantedAuthority.add(grantedAuthority);
-//        this.userName = userName;
-//        this.password = password;
-//    }
-//
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return Collections.singleton(new SimpleGrantedAuthority("USER"));
-//    }
-//    private List<String> roles;
-//    private String password;
-//    private String username;
-//
-//    public MyUserDetails(List<String> roles, String username, String password) {
-//        this.roles = roles;
-//        this.username = username;
-//        this.password = password;
-//    }
 
-    private final Collection<GrantedAuthority> authorities; // Use Collection of GrantedAuthority
+
+    private final Collection<GrantedAuthority> authorities; 
     private final String password;
     private final String username;
 
@@ -48,18 +25,10 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//       return authorities; // Return the stored authorities
         return this.authorities;
-
     }
 
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        // Convert role strings to GrantedAuthority objects
-//        return roles.stream()
-//                .map(SimpleGrantedAuthority::new)
-//                .collect(Collectors.toList());
-//    }
+
 
 
     @Override
