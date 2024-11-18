@@ -134,10 +134,10 @@ public class AdminController {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
             }
 
-            // Get the User object from the Optional
+            
             User user = userOptional.get();
 
-            // Set the 'beASeller' flag to true
+            
             user.setBeASeller(true);
 
             Optional<OrderRequest.Seller_Request> sellerOptional = sellerRequestRepo.findById(requestId);
