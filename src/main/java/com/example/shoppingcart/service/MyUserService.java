@@ -54,10 +54,7 @@ public class MyUserService {
             throw new IllegalArgumentException("User with this username already exists");
         }
         String encryptedPassword = encoder.encode(user.getPassword());
-        user.setPassword(encryptedPassword);
-//        Set<Role> roles = new HashSet<>();
-//        roles.add(Role.USER); // Default role is USER
-//        user.setRole(roles);
+
         user.setRole(Role.USER);
         userRepo.save(user);
     }
@@ -100,20 +97,15 @@ public class MyUserService {
     }
 
     private void cancelUserOrders(User user) {
-        // Find all orders associated with the user
         List<Order> orders = orderRepo.findByUserId(user.get_id());
 
-        // Iterate over each order and cancel the items
         for (Order order : orders) {
-            // Iterate over each OrderItem in the order
             for (OrderItem orderItem : order.getItems()) {
-                // Update the order status for each item
                 orderItem.setOrderStatus(OrderStatus.CANCELLED);
                 orderItem.setCancellationReason("Account deleted");
             }
 
-            // Save the updated order with the updated OrderItems
-            orderRepo.save(order);  // This will save both the order and its modified OrderItems
+            orderRepo.save(order);  
         }
     }
 
