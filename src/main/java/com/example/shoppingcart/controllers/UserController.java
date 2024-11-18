@@ -89,22 +89,6 @@ public class UserController {
 
 
 
-//    @PutMapping("/user/update")
-//    public ResponseEntity<String> updateUser(@RequestBody User updatedUser, Principal principal) {
-//        String username = principal.getName();
-//        Optional<User> userOptional = userRepo.findByUsername(username);
-//        if (userOptional.isPresent()) {
-//            User user = userOptional.get();
-//            user.setEmail(updatedUser.getEmail());
-//            user.setPhoneNumber(updatedUser.getPhoneNumber());
-//            user.setFullName(updatedUser.getFullName());
-//            user.setAddress(updatedUser.getAddress());
-//            System.out.println("user "+user);
-//            userRepo.save(user);
-//            return ResponseEntity.ok("User profile updated successfully");
-//        }
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-//    }
 
     @PutMapping("/user/update")
     @PreAuthorize("hasAuthority('ROLE_USER')")
@@ -112,7 +96,7 @@ public class UserController {
         // Get the username of the currently authenticated user
         String username = principal.getName();
 
-        // Fetch the current user from the database using their username
+        
         Optional<User> userOptional = userRepo.findByUsername(username);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -249,19 +233,7 @@ public class UserController {
         return ResponseEntity.ok(products);
     }
 
-//    @GetMapping("/downloadInvoice/{orderId}")
-//    public ResponseEntity<Resource> downloadInvoice(@PathVariable String orderId) {
-//        String filePath = "invoices/order_" + orderId + ".pdf";
-//        FileSystemResource fileResource = new FileSystemResource(filePath);
-//
-//        return ResponseEntity.ok()
-//                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=invoice_" + orderId + ".pdf")
-//                .contentType(MediaType.APPLICATION_PDF)
-//                .body(fileResource);
-//    }
-
-
-//    add reviews
+// Adding reviews of a product
      @PutMapping("user/review")
           public ResponseEntity<String> addReview(
                  @RequestBody ReviewRequest reviewRequest) {
