@@ -46,7 +46,7 @@ public class ProductService {
 
     public Product addProduct(Product product, MultipartFile file) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName(); // This gets the username from the JWT
+        String username = authentication.getName(); 
 
         // Verifying if the user is a seller
         Optional<User> user = userRepo.findByUsername(username);
@@ -54,7 +54,7 @@ public class ProductService {
             throw new Exception("User is not authorized to add products.");
 
 
-        product.setSellerId(user.get().get_id());// Assuming you have a method to get user ID
+        product.setSellerId(user.get().get_id());
 
         Optional<Seller> seller=sellerRepo.findByUserId(user.get().get_id());
         String sellerName=seller.get().getSellerName();
@@ -69,7 +69,6 @@ public class ProductService {
             throw new RuntimeException("Failed to store image data: " + e.getMessage());
         }
 
-        // Save the product in the database
         return productRepo.save(product);
     }
 
@@ -138,9 +137,9 @@ public class ProductService {
     }
 
     public ResponseEntity<List<Product>> viewProducts(String sellerId) {
-        List<Product> products = productRepo.findBySellerId(sellerId);  // assuming productRepo has this method
+        List<Product> products = productRepo.findBySellerId(sellerId);  
 
-        // Check if any products were found
+       
         if (products.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); // No products found
         }
