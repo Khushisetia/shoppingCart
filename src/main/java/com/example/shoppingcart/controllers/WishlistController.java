@@ -64,7 +64,7 @@ public class WishlistController {
         WishlistItem wishlistItem = new WishlistItem();
         // wishlistItem.setUserId(user.get().get_id());
         wishlistItem.setProductId(productId);
-        wishlistItem.setProductName(product.get().getName());// Set product details (assuming WishlistItem has a Product field)
+        wishlistItem.setProductName(product.get().getName());
         wishlistItem.setPrice(product.get().getPrice());
 
         wishlistService.addProductToWishlist(user.get().get_id(), wishlistItem);
