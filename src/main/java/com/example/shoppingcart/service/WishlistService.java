@@ -37,9 +37,9 @@ public class WishlistService {
        
         Wishlist wishlist = wishlistRepo.findByUserId(userId).orElse(new Wishlist());
 
-        // If the wishlist does not exist, create a new one
+        
         if (wishlist.getProduct() == null) {
-            wishlist.setProduct(new HashSet<>()); // Initialize the products list if it's null
+            wishlist.setProduct(new HashSet<>()); 
         }
 
         // Check if the product already exists in the wishlist
