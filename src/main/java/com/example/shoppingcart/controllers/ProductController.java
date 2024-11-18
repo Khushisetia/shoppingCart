@@ -64,30 +64,6 @@ public class ProductController {
             }
         }
 
-//    @PostMapping("/AddProduct")
-//    public ResponseEntity<Product> addProduct(
-//            @RequestParam("files") List<MultipartFile> files, // Accept multiple files
-//            @RequestParam("product") String productJson) {
-//        if (!isSeller()) {
-//            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-//        }
-//
-//        try {
-//            // Parse the product JSON to a Product object
-//            Product product = objectMapper.readValue(productJson, Product.class);
-//
-//            // Add the product with multiple images
-//            Product savedProduct = productService.addProduct(product, files);
-//
-//            return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
-//        } catch (Exception e) {
-//            e.printStackTrace(); // Log the error for debugging
-//            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-//        }
-//    }
-
-
-
 
 
     @GetMapping("/search")
@@ -148,31 +124,6 @@ public class ProductController {
             return productService.viewProducts(sellerId);
         }
 
-//    @GetMapping("/user/seller/viewAllOrders")
-//    public List<Order> viewAllOrders() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String userName = authentication.getName();
-//        Optional<User> user = userRepo.findByUsername(userName);
-//
-//        if (user.isPresent()) {
-//            String userId = user.get().get_id();
-//
-//            // Fetch all products associated with this seller
-//            List<Product> sellerProducts = productService.findProductsBySellerId(userId);
-//            List<String> sellerProductIds = sellerProducts.stream()
-//                    .map(Product::getId)
-//                    .collect(Collectors.toList());
-//
-//            // Fetch orders containing any of the seller's product IDs
-//            return orderService.findOrdersByProductIds(sellerProductIds);
-//        } else {
-//            // Handle case where user is not found (return an empty list or throw an exception)
-//            return Collections.emptyList();
-//        }
-//    }
-//
-//
-//        }
 
 
 
