@@ -19,37 +19,7 @@ import java.util.function.Function;
 @Service
 @Slf4j
 public class JWTService {
-//    private String secretKey="c7sc";//random
-//
-//    public JWTService(){
-//        try {
-//            KeyGenerator keyGenerator=KeyGenerator.getInstance("HmacSHA256");
-//            keyGenerator.init(256);
-//            SecretKey sk= keyGenerator.generateKey();
-//
-//            Base64.getEncoder().encodeToString(sk.getEncoded());
-//        } catch (NoSuchAlgorithmException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//    public String generateToken(String userName){
-//        Map<String,Object> claims=new HashMap<>();
-//        return Jwts.builder()
-//                .setClaims(claims)
-//                .setSubject(userName)
-//                .setIssuedAt(new Date(System.currentTimeMillis()))
-//                .setExpiration(new Date(System.currentTimeMillis()*60*60*30))
-//                .signWith(getKey())
-//                .compact();
-//
-//    }
-//
-//
-//    public Key getKey() {
-//        byte[] keyBytes= Decoders.BASE64.decode(secretKey);
-//        return Keys.hmacShaKeyFor(keyBytes);
-//    }
+
 
     private SecretKey secretKey;
 
@@ -85,14 +55,10 @@ public class JWTService {
     }
 
     private Claims extractAllClaims(String token){
-//        return Jwts.parserBuilder()
-//                .setSigningKey(getKey())
-//                .build()
-//                .parseClaimsJws(token)
-//                .getBody();
+
         try {
             return Jwts.parserBuilder()
-                    .setSigningKey(secretKey) // Replace with your signing key
+                    .setSigningKey(secretKey) 
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
