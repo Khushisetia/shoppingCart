@@ -29,8 +29,7 @@ public class UserService implements UserDetailsService {
             System.out.println("User is null");
             throw new UsernameNotFoundException("USER NOT FOUND");
         }
-//        return new MyUserDetails(user.getRole(),user.getUsername(),user.getPassword());
-        // Convert user roles to GrantedAuthority
+
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole().toString().toUpperCase()));
 
         System.out.println("User roles: " + authorities);
