@@ -42,23 +42,9 @@ public class WishlistController {
             return ResponseEntity.ok(wishlistItems); // Return the wishlist items}
     }
 
-    // Add a product to the user's wishlist
-//    @PostMapping("/addProduct")
-//    public ResponseEntity<String> addProductToWishlist( @RequestBody WishlistItem wishlistItem) {
-//        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
-//        String username=authentication.getName();
-//        Optional<User> user= userRepo.findByUsername(username);
-//        if(!user.isPresent()) {
-//            return ResponseEntity.notFound().build();
-//        }
-//        String userId=user.get().get_id();
-//        wishlistService.addProductToWishlist(userId, wishlistItem);
-//        return ResponseEntity.ok("Product added to wishlist successfully.");
-//    }
-
+   
     @PostMapping("/addProduct")
     public ResponseEntity<String> addProductToWishlist(@RequestParam String productId) {
-        // Get the authenticated username
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
@@ -74,7 +60,7 @@ public class WishlistController {
             return ResponseEntity.notFound().build(); // Product not found
         }
 
-        // Create WishlistItem (You may need to add more attributes depending on your WishlistItem class)
+        // Create WishlistItem 
         WishlistItem wishlistItem = new WishlistItem();
         // wishlistItem.setUserId(user.get().get_id());
         wishlistItem.setProductId(productId);
@@ -82,9 +68,7 @@ public class WishlistController {
         wishlistItem.setPrice(product.get().getPrice());
 
         wishlistService.addProductToWishlist(user.get().get_id(), wishlistItem);
-        // Add the item to the wishlist
-        //return ResponseEntity.ok(wishlistService.addProductToWishlist(user.get().get_id(), wishlistItem));
-
+        
         return ResponseEntity.ok("Product added to wishlist successfully.");
     }
 
