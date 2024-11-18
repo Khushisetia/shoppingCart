@@ -60,18 +60,15 @@ public class OrderService {
         if (itemRequest.getOrderStatus() != null) {
             item.setOrderStatus(itemRequest.getOrderStatus());
         }
-        // Update other fields if necessary, e.g., quantity, color, size, etc.
     }
 
 
     public Order placeOrder(OrderRequest orderRequest, String token) throws Exception {
         String userName = jwtService.extractUserName(token);
 
-        // Step 2: Retrieve user details from the database using the username
         User user = userRepo.findByUsername(userName)
                 .orElseThrow(() -> new Exception("User not found"));
 
-        // Step 3: Create a new order and set its properties
         Order newOrder = new Order();
         newOrder.setUserId(user.get_id());
         newOrder.setUserName(user.getUsername());
@@ -90,7 +87,6 @@ public class OrderService {
             Product product = productRepo.findById(itemRequest.getProductId())
                     .orElseThrow(() -> new Exception("Product not found: " + itemRequest.getProductId()));
 
-            // Check if sufficient quantity is available
             if (product.getQuantity() < itemRequest.getQuantity()) {
                 throw new Exception("Insufficient stock for product: " + itemRequest.getProductId());
             }
@@ -103,8 +99,7 @@ public class OrderService {
                     totalPrice
             );
 
-            // Set initial order status for each item
-            item.setOrderStatus(OrderStatus.PENDING);  // Set the status for each item individually
+            item.setOrderStatus(OrderStatus.PENDING);  
 
             totalAmount += totalPrice;
             product.setQuantity(product.getQuantity() - itemRequest.getQuantity());
@@ -127,18 +122,18 @@ public class OrderService {
     private void notifySeller(Order order) {
         Map<String, List<OrderItem>> sellerItemsMap = new HashMap<>();
 
-        // Group OrderItems by Seller's email
+        // Grouping OrderItems by Seller's email
         for (OrderItem item : order.getItems()) {
             String sellerEmail = sellerService.getSellerEmailByProductId(item.getProductId());
             sellerItemsMap.computeIfAbsent(sellerEmail, k -> new ArrayList<>()).add(item);
         }
 
-        // Notify each seller with a single email listing all relevant order items
+        // Notifying each seller with a single email listing all relevant order items
         for (Map.Entry<String, List<OrderItem>> entry : sellerItemsMap.entrySet()) {
             String sellerEmail = entry.getKey();
             List<OrderItem> sellerItems = entry.getValue();
 
-            // Build the email content
+           
             String subject = "New Order Notification for Multiple Products";
             StringBuilder body = new StringBuilder("You have a new order for the following items:\n\n");
 
@@ -162,34 +157,29 @@ public class OrderService {
 
         boolean itemFound = false;
 
-        // Loop through the order items and check the status of each item
+       
         for (OrderItem orderItem : order.getItems()) {
             if (orderItem.getProductId().equals(productId)) {
 
-                // Ensure that the item is in PENDING status before allowing cancellation
                 if (orderItem.getOrderStatus() != OrderStatus.PENDING) {
                     throw new Exception("Item cannot be cancelled: " + productId + " in Order " + orderId);
                 }
 
-                // Update the status of the specific order item to CANCELLED
                 orderItem.setOrderStatus(OrderStatus.CANCELLED);
 
-                // Restore the quantity of the product that was ordered
                 Product product = productRepo.findById(orderItem.getProductId())
                         .orElseThrow(() -> new Exception("Product not found: " + orderItem.getProductId()));
                 product.setQuantity(product.getQuantity() + orderItem.getQuantity());
                 productRepo.save(product);
 
-                // Optionally, store the cancellation reason for the specific item
                 orderItem.setReturnReason(cancellationReason);
 
-                // Mark the item as cancelled
                 itemFound = true;
 
-                // Send a cancellation email for the specific product
+                // cancellation email for the specific product
                 emailService.sendOrderItemCancelledEmail(order.getEmail(), productId, order.get_id(),cancellationReason);
 
-                break;  // Exit loop after canceling the item
+                break; 
             }
         }
 
@@ -198,7 +188,6 @@ public class OrderService {
             throw new Exception("Product not found in the order: " + productId);
         }
 
-        // Save the updated order back to the repository (Only item-level change)
         orderRepo.save(order);
     }
 
@@ -229,12 +218,10 @@ public class OrderService {
 
 //    Seller want to update any order
     public String updateOrder(String orderId, UpdateOrderRequest updateOrderRequest, String token) throws Exception {
-    // Extract user info from token
     String userName = jwtService.extractUserName(token.replace("Bearer ", "").trim());
     User user = userRepo.findByUsername(userName)
             .orElseThrow(() -> new Exception("User not found"));
 
-    // Check if the user is a seller
     if (!user.isBeASeller()) {
         throw new Exception("User is not a seller");
     }
@@ -252,7 +239,6 @@ public class OrderService {
     updateOrderDetails(order, updateOrderRequest);
     updateProductsWithEligibleUsers(order);
 
-    // Save the updated order
     orderRepo.save(order);
     return "Order updated successfully!";
 }
@@ -266,7 +252,7 @@ public class OrderService {
     }
 
     private void updateOrderDetails(Order order, UpdateOrderRequest updateOrderRequest) {
-        // Update general order details if provided
+       
         if (updateOrderRequest.getPhoneNumber() != null) {
             order.setPhoneNumber(updateOrderRequest.getPhoneNumber());
         }
@@ -277,21 +263,17 @@ public class OrderService {
             order.setDeliveryDate(updateOrderRequest.getDeliveryDate());
         }
 
-        // Loop through the list of items in the update request and apply changes to the order items
         if (updateOrderRequest.getItems() != null) {
             for (UpdateOrderItemRequest itemRequest : updateOrderRequest.getItems()) {
-                // Loop through the items in the order and find the one to update by productId
                 for (OrderItem orderItem : order.getItems()) {
                     if (orderItem.getProductId().equals(itemRequest.getProductId())) {
-                        // Update the order item's status if provided
                         if (itemRequest.getOrderStatus() != null) {
                             orderItem.setOrderStatus(itemRequest.getOrderStatus());
                         }
-                        // Optionally, update other fields such as quantity
                         if (itemRequest.getQuantity() > 0) {
                             orderItem.setQuantity(itemRequest.getQuantity());
                         }
-                        break;  // Exit the loop after updating the item
+                        break;  
                     }
                 }
             }
@@ -379,7 +361,6 @@ public class OrderService {
         Order order = orderRepo.findById(orderId)
                 .orElseThrow(() -> new Exception("Order not found"));
 
-        // Iterate through the order items and find the item with the given productId
         boolean itemFound = false;
         for (OrderItem item : order.getItems()) {
             if (item.getProductId().equals(productId)) {
@@ -399,9 +380,8 @@ public class OrderService {
     }
 
     public List<Order> getOrdersForSeller(List<String> productIds) {
-        List<Order> allOrders = orderRepo.findAll();  // Fetch all orders from your database
+        List<Order> allOrders = orderRepo.findAll();  
 
-        // Filter orders based on the productId of items belonging to the seller
         List<Order> filteredOrders = allOrders.stream()
                 .filter(order -> order.getItems().stream()
                         .anyMatch(item -> productIds.contains(item.getProductId())))
